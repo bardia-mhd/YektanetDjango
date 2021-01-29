@@ -5,5 +5,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the am index.")
+def show_home_page(request):
+    return HttpResponse("hello")
+
+
+def detail(request, question_id):
+    pass
+
+
+def create_ad(request):
+    pass

@@ -4,9 +4,16 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 
+from .models import Advertiser, Ad
+
 
 def show_home_page(request):
-    return HttpResponse("hello")
+    advertisers_list = Advertiser.objects.all()
+    context = {"advertisers_list": advertisers_list}
+    ad_lists = Ad.objects.all()
+    for ad in ad_lists:
+        ad.incViews()
+    return render(request, 'advertiser_management/home_page.html', context)
 
 
 def detail(request, question_id):

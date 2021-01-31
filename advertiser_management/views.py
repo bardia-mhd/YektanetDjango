@@ -17,7 +17,7 @@ class AdDetailRedirectView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         ad = get_object_or_404(Ad, pk=kwargs['pk'])
-        ad.incClicks()
+        ad.inc_clicks()
         self.url = ad.link
         return ad.link
 
@@ -27,19 +27,17 @@ def show_home_page(request):
     context = {"advertisers_list": advertisers_list}
     ad_lists = Ad.objects.all()
     for ad in ad_lists:
-        ad.incViews()
+        ad.inc_views()
     return render(request, 'advertiser_management/home_page.html', context)
 
 
 def create_ad(request):
-
     pass
 
 
 class AdFromView(FormView):
     form_class = AdForm
     template_name = 'advertiser_management/create_ad.html'
-
 
     def form_valid(self, form):
         title1 = form.cleaned_data.get("title")

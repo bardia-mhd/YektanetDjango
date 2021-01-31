@@ -14,8 +14,8 @@
                 <div class="row">
 		    {% for ad in advertiser.ad_set.all %}
                         <div class="card col-md-2 p-0 mx-2">
-                            <a href="{% url 'detail' ad.id %}">
-                                <img src="{{ ad.imgUrl }}"
+                            <a href="{% url 'advertiser_management:detail' ad.id %}">
+                                <img src="{{ ad.img.url }}"
                                      class="card-img-top">
                                 <div class="card-body">
                                     <span>{{ ad.title }}</span>
@@ -28,6 +28,8 @@
         </div>
     {% endfor %}
 </div>
-<p style="text-align:center; margin-top: 15px; "><a style="text-align:center; color: #5E5694;" href="{% url 'createAd' %}">create new ad</a></p>
+<p style="text-align:center; margin-top: 15px; "><a style="text-align:center; color: #5E5694;"
+                                                    href="{% url 'advertiser_management:createAd' %}">create new ad</a>
+</p>
 </body>
 </html>

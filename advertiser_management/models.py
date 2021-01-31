@@ -44,6 +44,7 @@ class Advertiser(models.Model):
 class Ad(models.Model):
     title = models.CharField(max_length=150)
     imgUrl = models.CharField(max_length=300)
+    img = models.ImageField(upload_to='images', default='default.jpg')
     link = models.CharField(max_length=300)
     clicks = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
@@ -59,8 +60,15 @@ class Ad(models.Model):
     def get_imgUrl(self):
         return self.imgUrl
 
+    def get_img(self):
+        return self.img
+
     def set_imgUrl(self, imgUrl):
         self.imgUrl = imgUrl
+        self.save()
+
+    def set_img(self, img):
+        self.img = img
         self.save()
 
     def get_link(self):

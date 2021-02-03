@@ -8,6 +8,7 @@
     <h1>Details of Ad with id {{ object.id }}</h1>
     <p>total clicks = {{ object.get_clicks }}</p>
     <p>total views = {{ object.get_views }}</p>
+{#    TODO #}
     <p>clicks per view = {{ object.get_clicks_with_views }}</p>
     <p>average time between view and click = {{ object.get_average_between_view_and_clicks }}</p>
     <a href="{% url 'advertiser_management:homePage' %}">goto homepage</a>

@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views import generic
 from django.views.generic import RedirectView, FormView
 
-from .forms import AdForm
+from .forms import AdForm, AdDetailForm
 from .models import Advertiser, Ad
 
 
@@ -58,3 +58,17 @@ class AdFromView(FormView):
             #     return Respone({"status": "asvertiser not found"}, status=404)
         )
         return HttpResponseRedirect(reverse('advertiser_management:homePage'))
+
+
+class AdDetails(generic.DetailView):
+    model = Ad
+    template_name = 'advertiser_management/details_for_each_ad.html'
+
+
+class SearchAdForm(FormView):
+    form_class = AdDetailForm
+    template_name = 'advertiser_management/search_page.html'
+
+    def form_valid(self, form):
+        ad_id = form.cleaned_data.get('ad_id')
+        return HttpResponseRedirect(reverse('advertiser_management:adDetails', args=(ad_id,)))

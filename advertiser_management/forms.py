@@ -6,3 +6,7 @@ class AdForm(forms.Form):
     img = forms.ImageField()
     title = forms.CharField()
     link = forms.CharField()
+
+
+class AdDetailForm(forms.Form):
+    ad_id = forms.IntegerField()

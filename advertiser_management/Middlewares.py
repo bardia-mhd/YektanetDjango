@@ -43,3 +43,5 @@ class ClicksAdMiddleware:
             ad = get_object_or_404(Ad, pk=x[2])
             ad.inc_clicks(ip)
             print('clicked on ad with id ' + x[2])
+        response = self.get_response(request)
+        return response

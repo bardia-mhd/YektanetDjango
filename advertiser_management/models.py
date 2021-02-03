@@ -61,7 +61,6 @@ class Ad(models.Model):
     def is_approve(self):
         return self.approve
 
-    # TODO
     def get_last_2_hour_clicks(self):
         clicks_list_temp = []
         for i in range(2):

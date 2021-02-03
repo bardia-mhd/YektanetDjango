@@ -1,4 +1,6 @@
 from django.db import models
+import operator
+from datetime import timedelta
 
 # Create your models here.
 from django.db.models import Sum
@@ -59,6 +61,60 @@ class Ad(models.Model):
     def is_approve(self):
         return self.approve
 
+    def get_last_2_hour_clicks(self):
+        clicks_list_temp = []
+        for i in range(2):
+            time_threshold = timezone.now() - timedelta(hours=(i + 1))
+            results = self.click_set.filter(time__gt=time_threshold).count()
+            if i > 0:
+                clicks_sum = 0
+                for j in range(i):
+                    clicks_sum += clicks_list_temp[j]
+                results -= clicks_sum
+            clicks_list_temp.append(results)
+        return clicks_list_temp
+
+    def get_last_2_hour_views(self):
+        views_list_temp = []
+        for i in range(2):
+            time_threshold = timezone.now() - timedelta(hours=(i + 1))
+            results = self.view_set.filter(time__gt=time_threshold).count()
+            if i > 0:
+                views_sum = 0
+                for j in range(i):
+                    views_sum += views_list_temp[j]
+                results -= views_sum
+            views_list_temp.append(results)
+        return views_list_temp
+
+    def get_clicks_with_views(self):
+        list_clicks = self.get_last_2_hour_clicks()
+        list_views = self.get_last_2_hour_views()
+        temp_dict = {}
+        for i in range(5):
+            if list_views[i] != 0:
+                x = list_clicks[i]/list_views[i]
+                x = round(x, 3)
+            else:
+                x = 0
+            time_threshold = timezone.now() - timedelta(hours=(i+1))
+            temp_dict ['hour ' + str(time_threshold)] = x
+        sorted_dict = sorted(temp_dict.items(), key=operator.itemgetter(1))
+        sorted_dict.reverse()
+        return sorted_dict
+
+    def get_average_between_view_and_clicks(self):
+        temp_sum = 0
+        for click in self.click_set.all():
+            for view in self.view_set.all():
+                if view.get_ip() == click.get_ip() and view.get_time() < click.get_time():
+                    selected_view = view
+            time = click.get_time - selected_view.get_time()
+            temp_sum += time.seconds
+            avg = round(temp_sum / self.click_set.count(), 3)
+            print('average second : ' + str(avg))
+            average_time = str(timedelta(seconds=avg))
+            return average_time
 
 class View(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)

@@ -40,17 +40,21 @@ class AdFromView(FormView):
     template_name = 'advertiser_management/create_ad.html'
 
     def form_valid(self, form):
-        title1 = form.cleaned_data.get("title")
+        form_title = form.cleaned_data.get("title")
         advertiser_id1 = form.cleaned_data.get("advertiser_id")
-        link1 = form.cleaned_data.get("link")
-        img1 = form.cleaned_data.get("img")
-        obj1 = Ad.objects.create(
-            title=title1,
-            img=img1,
-            link=link1,
+        form_link = form.cleaned_data.get("link")
+        form_img = form.cleaned_data.get("img")
+        Ad.objects.create(
+            title=form_title,
+            img=form_img,
+            link=form_link,
             clicks=0,
             views=0,
             advertiser=Advertiser.objects.get(pk=advertiser_id1)
+            # TODO ask!
+            # try:
+            #     advertiser = Advertiser.objects.get(pk=advertiser_id1)
+            # except Advertiser.DoesNotExist:
+            #     return Respone({"status": "asvertiser not found"}, status=404)
         )
-        obj1.save()
         return HttpResponseRedirect(reverse('advertiser_management:homePage'))

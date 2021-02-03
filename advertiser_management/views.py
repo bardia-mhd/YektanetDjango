@@ -71,4 +71,5 @@ class SearchAdForm(FormView):
 
     def form_valid(self, form):
         ad_id = form.cleaned_data.get('ad_id')
+        ad = get_object_or_404(Ad, pk = ad_id)
         return HttpResponseRedirect(reverse('advertiser_management:adDetails', args=(ad_id,)))

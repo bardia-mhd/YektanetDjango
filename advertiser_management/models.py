@@ -87,21 +87,12 @@ class Ad(models.Model):
             views_list_temp.append(results)
         return views_list_temp
 
-    def get_clicks_with_views(self):
-        list_clicks = self.get_last_2_hour_clicks()
-        list_views = self.get_last_2_hour_views()
-        temp_dict = {}
-        for i in range(5):
-            if list_views[i] != 0:
-                x = list_clicks[i] / list_views[i]
-                x = round(x, 3)
-            else:
-                x = 0
-            time_threshold = timezone.now() - timedelta(hours=(i + 1))
-            temp_dict['hour ' + str(time_threshold)] = x
-        sorted_dict = sorted(temp_dict.items(), key=operator.itemgetter(1))
-        sorted_dict.reverse()
-        return sorted_dict
+    def get_clicks_per_views(self):
+        if self.view_set.count() != 0:
+            x = self.click_set.count() / self.view_set.count()
+        else:
+            x = 0
+        return round(x, 3)
 
     def get_average_between_view_and_clicks(self):
         temp_sum = 0

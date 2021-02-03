@@ -51,7 +51,7 @@ class AdFromView(FormView):
             clicks=0,
             views=0,
             advertiser=Advertiser.objects.get(pk=advertiser_id1)
-            # TODO ask!
+
             # try:
             #     advertiser = Advertiser.objects.get(pk=advertiser_id1)
             # except Advertiser.DoesNotExist:

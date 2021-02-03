@@ -47,7 +47,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'advertiser_management.Middlewares.ViewAdMiddleware',
-    # TODO
     'advertiser_management.Middlewares.ClicksAdMiddleware'
 
 ]

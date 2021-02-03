@@ -93,12 +93,12 @@ class Ad(models.Model):
         temp_dict = {}
         for i in range(5):
             if list_views[i] != 0:
-                x = list_clicks[i]/list_views[i]
+                x = list_clicks[i] / list_views[i]
                 x = round(x, 3)
             else:
                 x = 0
-            time_threshold = timezone.now() - timedelta(hours=(i+1))
-            temp_dict ['hour ' + str(time_threshold)] = x
+            time_threshold = timezone.now() - timedelta(hours=(i + 1))
+            temp_dict['hour ' + str(time_threshold)] = x
         sorted_dict = sorted(temp_dict.items(), key=operator.itemgetter(1))
         sorted_dict.reverse()
         return sorted_dict
@@ -109,12 +109,13 @@ class Ad(models.Model):
             for view in self.view_set.all():
                 if view.get_ip() == click.get_ip() and view.get_time() < click.get_time():
                     selected_view = view
-            time = click.get_time - selected_view.get_time()
-            temp_sum += time.seconds
+                time = click.get_time - selected_view.get_time()
+                temp_sum += time.seconds
             avg = round(temp_sum / self.click_set.count(), 3)
             print('average second : ' + str(avg))
             average_time = str(timedelta(seconds=avg))
             return average_time
+
 
 class View(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)

@@ -18,7 +18,7 @@ class AdDetailRedirectView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         ad = get_object_or_404(Ad, pk=kwargs['pk'])
-        ad.inc_clicks()
+        # ad.inc_clicks()
         self.url = ad.link
         return ad.link
 
@@ -71,5 +71,5 @@ class SearchAdForm(FormView):
 
     def form_valid(self, form):
         ad_id = form.cleaned_data.get('ad_id')
-        ad = get_object_or_404(Ad, pk = ad_id)
+        ad = get_object_or_404(Ad, pk=ad_id)
         return HttpResponseRedirect(reverse('advertiser_management:adDetails', args=(ad_id,)))

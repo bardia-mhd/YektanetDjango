@@ -28,9 +28,6 @@ class HomePageView(generic.ListView):
     context_object_name = 'advertisers_list'
 
     def get_queryset(self):
-        ad_lists = Ad.objects.all()
-        for ad in ad_lists:
-            ad.incViews()
         return Advertiser.objects.all()
 
 

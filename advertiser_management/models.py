@@ -45,15 +45,13 @@ class Ad(models.Model):
             time=timezone.now(),
             user_ip=ip
         )
-        obj1.save()
 
     def inc_views(self, ip):
-        obj1 = Click.objects.create(
+        obj1 = View.objects.create(
             ad=self,
             time=timezone.now(),
             user_ip=ip
         )
-        obj1.save()
 
     def get_views(self):
         return self.view_set.count()
@@ -113,26 +111,8 @@ class View(models.Model):
     time = models.DateTimeField(default=datetime.now)
     user_ip = models.GenericIPAddressField()
 
-    def get_ip(self):
-        return self.user_ip
-
-    def get_time(self):
-        return self.time
-
-    def set_ip(self, ip):
-        self.user_ip = ip
-
 
 class Click(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
     time = models.DateTimeField(default=datetime.now)
     user_ip = models.GenericIPAddressField()
-
-    def get_ip(self):
-        return self.user_ip
-
-    def get_time(self):
-        return self.time
-
-    def set_ip(self, ip):
-        self.user_ip = ip

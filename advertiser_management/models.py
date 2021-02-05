@@ -106,7 +106,10 @@ class Ad(models.Model):
                     selected_view = view
                 time = click.get_time - selected_view.get_time()
                 temp_sum += time.seconds
-            avg = round(temp_sum / self.click_set.count(), 3)
+            if self.click_set.count() != 0:
+                avg = round(temp_sum / self.click_set.count(), 3)
+            else:
+                avg = 0
             print('average second : ' + str(avg))
             average_time = str(timedelta(seconds=avg))
             return average_time

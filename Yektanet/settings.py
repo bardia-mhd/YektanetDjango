@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_celery_results',
 ]
 
 REST_FRAMEWORK = {
@@ -127,3 +128,22 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+from celery.schedules import crontab
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_TIMEZONE = 'Asia/Tehran'
+# Let's make things happen
+CELERY_BEAT_SCHEDULE = {
+ 'send-summary-every-hour': {
+       'task': 'viewPerHour',
+        # There are 4 ways we can handle time, read further
+       'schedule': 3600.0,
+        # If you're using any arguments
+       # 'args': (ad_id,),
+    },
+    # Executes every Friday at 4pm
+    'send-notification-on-friday-afternoon': {
+         'task': 'my_app.tasks.send_notification',
+         'schedule': crontab(hour=16, day_of_week=5),
+        },
+}

@@ -9,6 +9,7 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import RedirectView, FormView
 from rest_framework import viewsets, permissions
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -54,13 +55,14 @@ class AdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
     permission_classes = [permissions.IsAuthenticated & IsOwnerOrReadOnly]
+    authentication_classes = [TokenAuthentication]
 
     @action(detail=True, methods=['get'], permission_classes=[permissions.AllowAny])
     def click_on_ad(self, request, pk=None):
         ad = self.get_object()
         return Response({'link': ad.link})
 
-    @action(detail=True, methods=['get'], permission_classes=[permissions.IsAdminUser|IsOwner])
+    @action(detail=True, methods=['get'], permission_classes=[permissions.IsAdminUser | IsOwner])
     def get_ad_details(self, request, pk=None):
         ad = self.get_object()
         return Response({
@@ -77,18 +79,21 @@ class AdvertiserViewSet(viewsets.ModelViewSet):
     queryset = Advertiser.objects.all()
     serializer_class = AdvertiserSerializer
     permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
 
 class ClickViewSet(viewsets.ModelViewSet):
     queryset = Click.objects.all()
     serializer_class = ClickSerializer
     permission_classes = [permissions.IsAuthenticated & IsOwnerOrReadOnly]
+    authentication_classes = [TokenAuthentication]
 
 
 class ViewViewSet(viewsets.ModelViewSet):
     queryset = View.objects.all()
     serializer_class = ViewSerializer
     permission_classes = [permissions.IsAuthenticated & IsOwnerOrReadOnly]
+    authentication_classes = [TokenAuthentication]
 
 
 class HomePageView(generic.ListView):

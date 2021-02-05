@@ -3,7 +3,8 @@ import operator
 from datetime import timedelta
 
 # Create your models here.
-from django.db.models import Sum
+from django.db.models import Sum, Count
+from django.db.models.functions import TruncHour
 from django.utils import timezone
 from django.utils.datetime_safe import datetime
 from django.conf import settings
@@ -113,6 +114,10 @@ class Ad(models.Model):
             print('average second : ' + str(avg))
             average_time = str(timedelta(seconds=avg))
             return average_time
+
+    def click_per_hour(self):
+        return Click.objects.all().annotate(hour=TruncHour('time')).values('ad'
+                                                                           , 'hour').annotate(click=Count('id'))
 
 
 class View(models.Model):

@@ -15,9 +15,9 @@ app_name = "advertiser_management"
 urlpatterns = [
     path('', include(router.urls)),
     path('api/login', views.login),
-    # path('', views.HomePageView.as_view(), name='homePage'),
-    # path('<int:pk>/', AdDetailRedirectView.as_view(), name='detail'),
-    # path('createAd/', views.AdFromView.as_view(), name='createAd'),
-    # path('<int:pk>/details/', views.AdDetails.as_view(), name='adDetails'),
-    # path('searchAd/', views.SearchAdForm.as_view(), name='searchAd'),
+    path('', views.HomePageView.as_view(), name='homePage'),
+    path('<int:pk>/', AdDetailRedirectView.as_view(), name='detail'),
+    path('createAd/', views.AdFromView.as_view(), name='createAd'),
+    path('<int:pk>/details/', views.AdDetails.as_view(), name='adDetails'),
+    path('searchAd/', views.SearchAdForm.as_view(), name='searchAd'),
 ]

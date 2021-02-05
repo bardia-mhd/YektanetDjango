@@ -6,9 +6,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.views.generic import RedirectView, FormView
+from rest_framework import viewsets
 
 from .forms import AdForm, AdDetailForm
-from .models import Advertiser, Ad
+from .models import Advertiser, Ad, View, Click
+from .serializers import *
 
 
 class AdDetailRedirectView(RedirectView):
@@ -21,6 +23,29 @@ class AdDetailRedirectView(RedirectView):
         # ad.inc_clicks()
         self.url = ad.link
         return ad.link
+
+class AdViewSet(viewsets.ModelViewSet):
+    queryset = Ad.objects.all()
+    serializer_class = AdSerializer
+    # permission_classes = []
+
+
+class AdvertiserViewSet(viewsets.ModelViewSet):
+    queryset = Advertiser.objects.all()
+    serializer_class = AdvertiserSerializer
+    # permission_classes = []
+
+
+class ClickViewSet(viewsets.ModelViewSet):
+    queryset = Click.objects.all()
+    serializer_class = ClickSerializer
+    # permission_classes = []
+
+
+class ViewViewSet(viewsets.ModelViewSet):
+    queryset = View.objects.all()
+    serializer_class = ViewSerializer
+    # permission_classes = []
 
 
 class HomePageView(generic.ListView):

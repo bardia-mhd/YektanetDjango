@@ -15,6 +15,7 @@ from rest_framework.authtoken.models import Token
 
 class Advertiser(models.Model):
     name = models.CharField(max_length=150)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
     @staticmethod
     def get_total_clicks():

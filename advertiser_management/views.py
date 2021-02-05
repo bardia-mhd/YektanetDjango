@@ -17,7 +17,8 @@ from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP
 from .forms import AdForm, AdDetailForm
 from .models import Advertiser, Ad, View, Click
 from .serializers import *
-from permissions import IsOwnerOrReadOnly
+from permissions import IsOwnerOrReadOnly, IsOwner
+
 
 @csrf_exempt
 @api_view(["POST"])
@@ -58,6 +59,18 @@ class AdViewSet(viewsets.ModelViewSet):
     def click_on_ad(self, request, pk=None):
         ad = self.get_object()
         return Response({'link': ad.link})
+
+    @action(detail=True, methods=['get'], permission_classes=[permissions.IsAdminUser|IsOwner])
+    def get_ad_details(self, request, pk=None):
+        ad = self.get_object()
+        return Response({
+            'id': ad.id,
+            'total clicks': ad.get_clicks(),
+            'total views': ad.get_views(),
+            'clicks last 2 hours': ad.get_last_2_hour_clicks(),
+            'views last 2 hours': ad.get_last_2_hour_views(),
+            'average time between view and click': ad.get_average_between_view_and_clicks()
+        })
 
 
 class AdvertiserViewSet(viewsets.ModelViewSet):

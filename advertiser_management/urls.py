@@ -14,7 +14,7 @@ router.register(r'clicks', views.ClickViewSet)
 app_name = "advertiser_management"
 urlpatterns = [
     path('', include(router.urls)),
-    path('api-token-auth', obtain_auth_token, name = 'api_token_auth'),
+    path('api/login', views.login),
     # path('', views.HomePageView.as_view(), name='homePage'),
     # path('<int:pk>/', AdDetailRedirectView.as_view(), name='detail'),
     # path('createAd/', views.AdFromView.as_view(), name='createAd'),

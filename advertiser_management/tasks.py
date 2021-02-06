@@ -18,27 +18,20 @@ def task_view_hour():
 
 
 @shared_task
-def task_click_hour():
+def task_hour():
     ads = Ad.objects.all()
     for ad in ads:
         time = datetime.now() - timedelta(hours=1)
-        status = daily_status.objects.create(ad=ad, time=time)
-        return Click.objects.filter(ad=ad, time=time).count()
+        click = Click.objects.filter(ad=ad, time=time).count()
+        view = View.objects.filter(ad=ad, created_at__range=time).count()
+        status = hour_status.objects.create(ad=ad, time=time, view=view, click=click)
 
 
 @shared_task
-def task_view_hour():
+def task_daily():
     ads = Ad.objects.all()
     for ad in ads:
         time = start_time - end_time
-        status = hour_status.objects.create(ad=ad, time=time)
-        return View.objects.filter(ad=ad, created_at__range=time).count()
-
-
-@shared_task
-def task_click_hour():
-    ads = Ad.objects.all()
-    for ad in ads:
-        time = start_time - end_time
-        status = daily_status.objects.create(ad=ad, time=time)
-        return Click.objects.filter(ad=ad, create_ad__range=time).count()
+        click = Click.objects.filter(ad=ad, time=time).count()
+        view = View.objects.filter(ad=ad, time=time).cout
+        status = daily_status.objects.create(ad=ad, time=time, view=view, click=click)

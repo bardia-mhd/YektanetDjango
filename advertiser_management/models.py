@@ -130,3 +130,17 @@ class Click(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
     time = models.DateTimeField(default=datetime.now)
     user_ip = models.GenericIPAddressField()
+
+
+class daily_status(models.Model):
+    ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
+    click = models.PositiveIntegerField(default=0, null=False)
+    view = models.PositiveIntegerField(default=0, null=False)
+    time = models.DateTimeField(default=datetime.now())
+
+
+class hour_status(models.Model):
+    ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
+    click = models.PositiveIntegerField(default=0, null=False)
+    view = models.PositiveIntegerField(default=0, null=False)
+    time = models.DateTimeField(default=datetime.now())

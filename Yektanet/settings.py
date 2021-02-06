@@ -149,8 +149,3 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=16, day_of_week=5),
     },
 }
-
-BROKER_URL = 'amqp://guest:guest@localhost//'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'

@@ -18,22 +18,22 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.conf.beat_schedule = {
     'last_hour_views': {
-        'tasks': 'advertiser_management.tasks.task_view',
+        'tasks': 'advertiser_management.tasks.task_view_hour',
         'schedule': crontab(minute=0, hour='*/1'),
     },
 
     'last_hour_clicks': {
-        'tasks': 'advertiser_management.tasks.task_clicks',
+        'tasks': 'advertiser_management.tasks.task_click_hour',
         'schedule': crontab(minute=0, hour='*/1'),
     },
 
     'last_day_views': {
-        'tasks': 'advertiser_management.tasks.task_view',
+        'tasks': 'advertiser_management.tasks.task_view_hour',
         'schedule': crontab(minute=0, hour='*/24'),
     },
 
     'last_day_clicks': {
-        'tasks': 'advertiser_management.tasks.task_clicks',
+        'tasks': 'advertiser_management.tasks.task_click_hour',
         'schedule': crontab(minute=0, hour='*/24'),
     },
 

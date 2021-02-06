@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_celery_results',
-    'django_celery_beat'
+    'django_celery_beat',
 ]
 
 REST_FRAMEWORK = {
@@ -131,20 +131,26 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 from celery.schedules import crontab
+
 # CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_TIMEZONE = 'Asia/Tehran'
 # Let's make things happen
 CELERY_BEAT_SCHEDULE = {
- 'send-summary-every-hour': {
-       'task': 'viewPerHour',
+    'send-summary-every-hour': {
+        'task': 'viewPerHour',
         # There are 4 ways we can handle time, read further
-       'schedule': 3600.0,
+        'schedule': 3600.0,
         # If you're using any arguments
-       # 'args': (ad_id,),
+        # 'args': (ad_id,),
     },
     # Executes every Friday at 4pm
     'send-notification-on-friday-afternoon': {
-         'task': 'my_app.tasks.send_notification',
-         'schedule': crontab(hour=16, day_of_week=5),
-        },
+        'task': 'my_app.tasks.send_notification',
+        'schedule': crontab(hour=16, day_of_week=5),
+    },
 }
+
+BROKER_URL = 'amqp://guest:guest@localhost//'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

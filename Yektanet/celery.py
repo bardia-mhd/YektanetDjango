@@ -5,6 +5,7 @@ from celery import Celery
 # set the default Django settings module for the 'celery' program.
 from celery.schedules import crontab
 
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'advertiser_management.settings')
 
 app = Celery('advertiser_management')
@@ -18,26 +19,22 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.beat_schedule = {
     'last_hour_views': {
         'tasks': 'advertiser_management.tasks.task_view',
-        'schedule': crontab(hour='*/1'),
-        'args': 2
+        'schedule': crontab(minute=0, hour='*/1'),
     },
 
     'last_hour_clicks': {
         'tasks': 'advertiser_management.tasks.task_clicks',
-        'schedule': crontab(hour='*/1'),
-        'args': 2
+        'schedule': crontab(minute=0, hour='*/1'),
     },
 
     'last_day_views': {
         'tasks': 'advertiser_management.tasks.task_view',
-        'schedule': crontab(hour='*/24'),
-        'args': 2
+        'schedule': crontab(minute=0, hour='*/24'),
     },
 
     'last_day_clicks': {
         'tasks': 'advertiser_management.tasks.task_clicks',
-        'schedule': crontab(hour='*/24'),
-        'args': 2
+        'schedule': crontab(minute=0, hour='*/24'),
     },
 
 }
